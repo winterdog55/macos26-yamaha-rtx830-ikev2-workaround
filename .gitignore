@@ -1,0 +1,16 @@
+# 記入済みプロファイル（PSK・実IPを含むため絶対にコミットしない）
+*filled*.mobileconfig
+*_mine.mobileconfig
+*-local.mobileconfig
+private/
+local/
+
+# パケットキャプチャ（IP・識別子・鍵交換材料を含む）
+*.pcap
+*.pcapng
+
+# ルーター設定・ログ
+*config.txt
+*.log
+
+.DS_Store
