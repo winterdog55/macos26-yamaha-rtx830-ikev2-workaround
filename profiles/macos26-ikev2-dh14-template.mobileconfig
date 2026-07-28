@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!--
+  ============================================================
+   書き換えるのは、二重アットマークで囲まれた4箇所だけです。
+   <key> で始まる行は「項目の名前」なので変更しないでください。
+
+     【1】ルーターのアドレス
+     【2】ルーター側の名乗り
+     【3】自分の名乗り
+     【4】事前共有鍵（PSK）
+
+   エディタで「@」を検索すると4箇所すべて見つかります。
+   手で編集せず、同梱の make-profile.sh で生成することもできます。
+  ============================================================
+-->
+<dict>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadType</key>
+			<string>com.apple.vpn.managed</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>PayloadIdentifier</key>
+			<string>com.tons-techlab.vpn.ikev2.pinned</string>
+			<key>PayloadUUID</key>
+			<string>7A1C2E54-91B3-4F6D-8C2A-0D5E9F3B1A20</string>
+			<key>PayloadDisplayName</key>
+			<string>IKEv2 Pinned DH14 (no PFS)</string>
+			<key>UserDefinedName</key>
+			<string>VPN (IKEv2 Pinned)</string>
+			<key>VPNType</key>
+			<string>IKEv2</string>
+			<key>IKEv2</key>
+			<dict>
+				<!-- 【1】ルーターのグローバルIPまたはDDNSホスト名 -->
+				<key>RemoteAddress</key>
+				<string>@@ルーターのアドレス@@</string>
+				<!-- 【2】ルーター側の名乗り。ipsec ike local name があればその値、なければ【1】と同じ -->
+				<key>RemoteIdentifier</key>
+				<string>@@ルーター側の名乗り@@</string>
+				<!-- 【3】自分（クライアント）の名乗り。RTX なら ipsec ike2 remote name のユーザー名 -->
+				<key>LocalIdentifier</key>
+				<string>@@自分の名乗り@@</string>
+				<key>AuthenticationMethod</key>
+				<string>SharedSecret</string>
+				<!-- 【4】事前共有鍵（PSK）。平文で保存されるため取り扱い注意       -->
+				<!-- ▼次の行は項目名。書き換えないこと                          -->
+				<key>SharedSecret</key>
+				<!-- ▼書き換えるのは @@ で囲まれた部分だけ                      -->
+				<string>@@事前共有鍵@@</string>
+				<key>ExtendedAuthEnabled</key>
+				<integer>0</integer>
+
+				<!-- ここが今回の核心：プロポーザルを1本に固定して再交渉（retry）を発生させない -->
+				<key>IKESecurityAssociationParameters</key>
+				<dict>
+					<key>EncryptionAlgorithm</key>
+					<string>AES-256</string>
+					<key>IntegrityAlgorithm</key>
+					<string>SHA2-256</string>
+					<key>DiffieHellmanGroup</key>
+					<integer>14</integer>
+					<key>LifeTimeInMinutes</key>
+					<integer>1440</integer>
+				</dict>
+				<key>ChildSecurityAssociationParameters</key>
+				<dict>
+					<key>EncryptionAlgorithm</key>
+					<string>AES-256</string>
+					<key>IntegrityAlgorithm</key>
+					<string>SHA2-256</string>
+					<key>LifeTimeInMinutes</key>
+					<integer>1440</integer>
+				</dict>
+				<!-- 第一試験：変数を絞るためPFSは明示的にオフ（接続成功後に有効化を検討） -->
+				<key>EnablePFS</key>
+				<false/>
+
+				<!-- RTXのIKEv2リモートアクセスはMOBIKE/リダイレクト非対応想定なので無効化 -->
+				<key>DisableMOBIKE</key>
+				<integer>1</integer>
+				<key>DisableRedirect</key>
+				<integer>1</integer>
+				<key>DeadPeerDetectionRate</key>
+				<string>Medium</string>
+				<key>NATKeepAliveInterval</key>
+				<integer>20</integer>
+			</dict>
+		</dict>
+	</array>
+	<key>PayloadDisplayName</key>
+	<string>IKEv2 Pinned Proposal for macOS 26</string>
+	<key>PayloadIdentifier</key>
+	<string>com.tons-techlab.profile.ikev2-pinned</string>
+	<key>PayloadRemovalDisallowed</key>
+	<false/>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadUUID</key>
+	<string>C3F8D6A1-2B47-4E9C-A5D0-6E1F8B2C9D34</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+</dict>
+</plist>
