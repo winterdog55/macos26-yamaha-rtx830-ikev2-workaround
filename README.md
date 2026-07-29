@@ -82,8 +82,7 @@ RTX830 (Rev.15.02.33) はこの再送に対し、SA・KE・Nonce を含む成功
 RFC 7296 3.1 節および RFC 4718 の記述からは、macOS 側の挙動（同一 Initiator SPI での再送、および Responder SPI がゼロの成功応答を受け付けないこと）はいずれも仕様に沿ったものと考えられます。
 
 パケットレベルの詳細 → [docs/packet-flow.md](./docs/packet-flow.md)
-調査の経緯を含む解説記事 → *（ブログ公開後にリンクを追記します）*
-
+調査の経緯を含む解説記事 → 調査の経緯を含む解説記事 → [「Apple側の問題です」と言われたVPN不具合、自分で調べたらルーター側やった話](https://ton-technotes.com/blog/2026-07-29-rtx830-macos26-ikev2-responder-spi-fix/)
 ## 前提条件
 
 - ルーターが IKEv2 で AES-256-CBC / SHA-256 / DH グループ14 に対応していること
